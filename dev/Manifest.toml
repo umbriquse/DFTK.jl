@@ -99,9 +99,9 @@ uuid = "d38c429a-6771-53c6-b99e-75d170b6e991"
 version = "0.5.3"
 
 [[DFTK]]
-deps = ["AbstractFFTs", "Conda", "FFTW", "ForwardDiff", "GenericLinearAlgebra", "Interpolations", "IterTools", "IterativeSolvers", "JSON", "Libxc", "LineSearches", "LinearAlgebra", "LinearMaps", "Markdown", "NCDatasets", "NLsolve", "Optim", "OrderedCollections", "PeriodicTable", "Plots", "Polynomials", "Primes", "Printf", "ProgressMeter", "PyCall", "Requires", "Roots", "SpecialFunctions", "StaticArrays"]
-git-tree-sha1 = "9f7bfd38c72aad5d5f3b72a859adac69b9681603"
-repo-rev = "17f49b74f07bf872af778cbeb2f027e5a94f656e"
+deps = ["AbstractFFTs", "Conda", "FFTW", "ForwardDiff", "GenericLinearAlgebra", "Interpolations", "IterTools", "IterativeSolvers", "JSON", "Libxc", "LineSearches", "LinearAlgebra", "LinearMaps", "Markdown", "NCDatasets", "NLsolve", "Optim", "OrderedCollections", "PeriodicTable", "Plots", "Polynomials", "Primes", "Printf", "ProgressMeter", "PyCall", "Requires", "Roots", "SpecialFunctions", "StaticArrays", "TimerOutputs"]
+git-tree-sha1 = "98d7ac011db93ab196cbf656cc1fd613527c6275"
+repo-rev = "5b3e633e21d1a6f1d823af5f4206db3000f36c8f"
 repo-url = "https://github.com/JuliaMolSim/DFTK.jl.git"
 uuid = "acf6eb54-70d9-11e9-0013-234b7a5f5337"
 version = "0.1.0"
@@ -628,6 +628,12 @@ deps = ["Dates", "EzXML", "Mocking", "Printf", "RecipesBase", "Serialization", "
 git-tree-sha1 = "db7bc2051d4c2e5f336409224df81485c00de6cb"
 uuid = "f269a46b-ccf7-5d73-abea-4c690281aa53"
 version = "1.2.0"
+
+[[TimerOutputs]]
+deps = ["Printf"]
+git-tree-sha1 = "f458ca23ff80e46a630922c555d838303e4b9603"
+uuid = "a759f4b9-e2f1-59dc-863e-4aeb61b1ea8f"
+version = "0.5.6"
 
 [[URIParser]]
 deps = ["Unicode"]
