@@ -18,22 +18,23 @@ lattice = load_lattice(surface);</code></pre><p>We model this surface with (quit
                   temperature=0.001, smearing=DFTK.Smearing.Gaussian())
 basis = PlaneWaveBasis(model, Ecut; kgrid=kgrid)
 
-scfres = self_consistent_field(basis, tol=1e-4, mixing=KerkerMixing());</code></pre><pre><code class="language-none">Iter   Free energy        ρout-ρin
+scfres = self_consistent_field(basis, tol=1e-4, mixing=KerkerMixing());</code></pre><pre><code class="language-none">  0    -16.534983816322    2.583921E-01
+Iter   Free energy        ρout-ρin
 ----   -----------        --------
-  1    -16.532321126320    2.583163E-01
-  2    -16.685835399984    9.243845E-02
-  3    -16.641984100207    5.282093E-02
-  4    -16.709449758314    7.212730E-03
-  5    -16.709299251467    3.893286E-03
-  6    -16.709326866581    2.051893E-03</code></pre><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
-    Kinetic             5.8572449 
-    AtomicLocal         -105.5902435
-    AtomicNonlocal      2.3675690 
+  1    -16.690175059097    8.745657E-02
+  2    -16.667391154829    4.020121E-02
+  3    -16.709549353402    9.594377E-03
+  4    -16.708688537318    3.965945E-03
+  5    -16.709525676278    2.497981E-03
+  6    -16.709559888083    1.818323E-03</code></pre><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
+    Kinetic             5.8561189 
+    AtomicLocal         -105.5787405
+    AtomicNonlocal      2.3671512 
     Ewald               35.5044300
     PspCorrection       0.2016043 
-    Hartree             49.5435320
-    Xc                  -4.5934612
-    Entropy             -0.0000023
+    Hartree             49.5327585
+    Xc                  -4.5928794
+    Entropy             -0.0000029
 
-    total               -16.709326866581
-</code></pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-RCW2001"><a class="tag is-link" href="#citeref-RCW2001">RCW2001</a>D. Raczkowski, A. Canning, and L. W. Wang <em>Thomas-Fermi charge mixing for obtaining self-consistency in density functional calculations</em> Phys. Rev. B <strong>64</strong>, 121101(R).</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pymatgen/">« Creating supercells with pymatgen</a><a class="docs-footer-nextpage" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 June 2020 13:52">Monday 8 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    total               -16.709559888083
+</code></pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-RCW2001"><a class="tag is-link" href="#citeref-RCW2001">RCW2001</a>D. Raczkowski, A. Canning, and L. W. Wang <em>Thomas-Fermi charge mixing for obtaining self-consistency in density functional calculations</em> Phys. Rev. B <strong>64</strong>, 121101(R).</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pymatgen/">« Creating supercells with pymatgen</a><a class="docs-footer-nextpage" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 9 June 2020 19:03">Tuesday 9 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

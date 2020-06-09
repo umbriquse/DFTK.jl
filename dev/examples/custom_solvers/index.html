@@ -32,15 +32,36 @@ end;</code></pre><p>Our eigenvalue solver just forms the dense matrix and diagon
     λ = E.values[1:n]
     X = E.vectors[:, 1:n]
     (λ=λ, X=X, residual_norms=[], iterations=0, converged=true, n_matvec=0)
-end;</code></pre><p>That&#39;s it! Now we just run the SCF with these solvers</p><pre><code class="language-julia">scfres = self_consistent_field(basis;
+end;</code></pre><p>Finally we also define our custom mixing scheme. It will be a mixture of simple mixing (for the first 2 steps) and than default to Kerker mixing.</p><pre><code class="language-julia">struct MyMixing
+    α  # Damping parameter
+end
+MyMixing() = MyMixing(0.7)
+
+function DFTK.mix(mixing::MyMixing, basis, ρin::RealFourierArray, ρout::RealFourierArray; n_iter, kwargs...)
+    if n_iter &lt;= 2
+        # Just do simple mixing
+        ρin + mixing.α * (ρout - ρin)
+    else
+        # Use the KerkerMixing from DFTK
+        DFTK.mix(KerkerMixing(α=mixing.α), basis, ρin, ρout; kwargs...)
+    end
+end</code></pre><p>That&#39;s it! Now we just run the SCF with these solvers</p><pre><code class="language-julia">scfres = self_consistent_field(basis;
                                tol=1e-8,
                                solver=my_fp_solver,
-                               eigensolver=my_eig_solver);</code></pre><pre><code class="language-none">Iter   Energy             ρout-ρin
+                               eigensolver=my_eig_solver,
+                               mixing=MyMixing());</code></pre><pre><code class="language-none">  0    -7.233137178645    3.201734E-01
+Iter   Energy             ρout-ρin
 ----   ------             --------
-  1    -7.233137178645    3.201734E-01
-  2    -7.248621670066    7.807108E-02
-  3    -7.249206306303    1.951657E-02
-  4    -7.249216281714    5.369292E-03
-  5    -7.249216845116    1.524374E-03
-  6    -7.249216890031    4.411543E-04
-  7    -7.249216894000    1.296577E-04</code></pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 June 2020 13:52">Monday 8 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  1    -7.246440203512    1.460007E-01
+  2    -7.248782206897    6.637745E-02
+  3    -7.249148637549    3.080831E-02
+  4    -7.249194629627    1.708557E-02
+  5    -7.249209503094    9.540309E-03
+  6    -7.249214379662    5.369649E-03
+  7    -7.249216013990    3.049660E-03
+  8    -7.249216576795    1.749621E-03
+  9    -7.249216776452    1.014952E-03
+ 10    -7.249216849427    5.957733E-04
+ 11    -7.249216876857    3.540158E-04
+ 12    -7.249216887428    2.129381E-04
+ 13    -7.249216891588    1.295864E-04</code></pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 9 June 2020 19:03">Tuesday 9 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
