@@ -13,19 +13,19 @@ Ecut = 7
 basis = PlaneWaveBasis(model, Ecut, kgrid=[4, 4, 4])
 
 # Run the SCF
-scfres = self_consistent_field(basis, tol=1e-4);</code></pre><pre><code class="language-none">  0    -7.889483451843    1.930668E-01
+scfres = self_consistent_field(basis, tol=1e-4);</code></pre><pre><code class="language-none">  0    -7.888642787933    1.933446E-01
 Iter   Energy             ρout-ρin
 ----   ------             --------
-  1    -7.903290748596    1.715504E-02
-  2    -7.905570983887    5.764259E-03
-  3    -7.905618667603    6.042114E-04</code></pre><p>To check the calculation has really run in Float32, we check the energies and density are expressed in this floating-point type:</p><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
-    Kinetic             3.1024382 
-    AtomicLocal         -2.1987216
-    AtomicNonlocal      1.7291008 
+  1    -7.902956962585    1.746989E-02
+  2    -7.905570983887    5.885164E-03
+  3    -7.905617713928    6.030787E-04</code></pre><p>To check the calculation has really run in Float32, we check the energies and density are expressed in this floating-point type:</p><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
+    Kinetic             3.1024723 
+    AtomicLocal         -2.1988561
+    AtomicNonlocal      1.7291881 
     Ewald               -8.3978930
     PspCorrection       -0.2946220
-    Hartree             0.5531551 
-    Xc                  -2.3990760
+    Hartree             0.5531744 
+    Xc                  -2.3990817
 
-    total               -7.905618667603
-</code></pre><pre><code class="language-julia">eltype(sum(values(scfres.energies)))</code></pre><pre><code class="language-none">Float32</code></pre><pre><code class="language-julia">eltype(scfres.ρ.real)</code></pre><pre><code class="language-none">Float32</code></pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-HLC2020"><a class="tag is-link" href="#citeref-HLC2020">HLC2020</a>M. F. Herbst, A. Levitt, E. Cancès. <em>A posteriori error estimation for the non-self-consistent Kohn-Sham equations</em> <a href="https://arxiv.org/abs/2004.13549">ArXiv 2004.13549</a></li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../cohen_bergstresser/">« Cohen-Bergstresser model</a><a class="docs-footer-nextpage" href="../custom_solvers/">Custom solvers »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 9 June 2020 19:03">Tuesday 9 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    total               -7.905617713928
+</code></pre><pre><code class="language-julia">eltype(sum(values(scfres.energies)))</code></pre><pre><code class="language-none">Float32</code></pre><pre><code class="language-julia">eltype(scfres.ρ.real)</code></pre><pre><code class="language-none">Float32</code></pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-HLC2020"><a class="tag is-link" href="#citeref-HLC2020">HLC2020</a>M. F. Herbst, A. Levitt, E. Cancès. <em>A posteriori error estimation for the non-self-consistent Kohn-Sham equations</em> <a href="https://arxiv.org/abs/2004.13549">ArXiv 2004.13549</a></li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../cohen_bergstresser/">« Cohen-Bergstresser model</a><a class="docs-footer-nextpage" href="../custom_solvers/">Custom solvers »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 10 June 2020 08:37">Wednesday 10 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

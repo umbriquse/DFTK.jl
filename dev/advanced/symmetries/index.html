@@ -7,26 +7,26 @@ S &amp;= \widetilde{S}^{T}\\
 \tau &amp;= -\widetilde{S}^{-1}\widetilde{\tau}.
 \end{aligned}\]</div><p>(these equations being also valid in reduced coordinates).</p><p>It follows that the Fourier transform satisfies</p><div>\[\widehat{Uu}(q) = e^{- iq \cdot \tau} \widehat u(S^{-1} q)\]</div><p>In particular, if <span>$e^{ik\cdot x} u_{k}(x)$</span> is an eigenfunction, then by decomposing <span>$u_k$</span> over plane-waves <span>$e^{i G \cdot x}$</span> one can see that <span>$e^{i(S^T k) \cdot x} (U u_k)(x)$</span> is also an eigenfunction: we can choose</p><div>\[u_{Sk} = U u_k.\]</div><p>This is used to reduce the computations needed. For a uniform sampling of the Brillouin zone (the <em>reducible <span>$k$</span>-points</em>), one can find a reduced set of <span>$k$</span>-points (the <em>irreducible <span>$k$</span>-points</em>) such that the eigenvectors at the reducible <span>$k$</span>-points can be deduced from those at the irreducible <span>$k$</span>-points.</p><h2 id="Example-1"><a class="docs-heading-anchor" href="#Example-1">Example</a><a class="docs-heading-anchor-permalink" href="#Example-1" title="Permalink"></a></h2><p>Let us demonstrate this in practice. We consider silicon, setup appropriately in the <code>lattice</code> and <code>atoms</code> objects as in <a href="../../guide/tutorial/#Tutorial-1">Tutorial</a> and to reach a fast execution, we take a small <code>Ecut</code> of <code>5</code> and a <code>[4, 4, 4]</code> Monkhorst-Pack grid. First we perform the DFT calculation disabling symmetry handling</p><pre><code class="language-julia">model = model_LDA(lattice, atoms)
 basis_nosym = PlaneWaveBasis(model, Ecut; kgrid=kgrid, use_symmetry=false)
-scfres_nosym = @time self_consistent_field(basis_nosym, tol=1e-8)</code></pre><pre><code class="language-none">  0    -7.851078025766    1.825215E-01
+scfres_nosym = @time self_consistent_field(basis_nosym, tol=1e-8)</code></pre><pre><code class="language-none">  0    -7.851359334337    1.824229E-01
 Iter   Energy             ρout-ρin
 ----   ------             --------
-  1    -7.865019263369    1.498304E-02
-  2    -7.867209832221    5.437679E-03
-  3    -7.867243461406    3.150154E-04
-  4    -7.867245233316    1.296387E-04
-  5    -7.867245240350    4.396480E-05
-  3.195684 seconds (1.25 M allocations: 737.006 MiB, 4.87% gc time)</code></pre><p>and then redo it using symmetry (the default):</p><pre><code class="language-julia">basis_sym = PlaneWaveBasis(model, Ecut; kgrid=kgrid)
-scfres_sym = @time self_consistent_field(basis_sym, tol=1e-8)</code></pre><pre><code class="language-none">  0    -7.853851615363    1.859977E-01
+  1    -7.865118357280    1.490702E-02
+  2    -7.867208807104    5.421692E-03
+  3    -7.867243501418    2.837119E-04
+  4    -7.867245235923    1.265719E-04
+  5    -7.867245241703    3.256398E-05
+  3.123058 seconds (1.24 M allocations: 736.474 MiB, 3.50% gc time)</code></pre><p>and then redo it using symmetry (the default):</p><pre><code class="language-julia">basis_sym = PlaneWaveBasis(model, Ecut; kgrid=kgrid)
+scfres_sym = @time self_consistent_field(basis_sym, tol=1e-8)</code></pre><pre><code class="language-none">  0    -7.853591292473    1.859881E-01
 Iter   Energy             ρout-ρin
 ----   ------             --------
-  1    -7.865453226478    1.694769E-02
-  2    -7.867188281970    5.373513E-03
-  3    -7.867242144369    4.360284E-04
-  4    -7.867245232608    7.610100E-05
-  5    -7.867245242864    1.505374E-05
-  6    -7.867245243360    8.925251E-07
-  0.682764 seconds (323.71 k allocations: 127.212 MiB, 2.96% gc time)</code></pre><p>Clearly both yield the same energy but the version employing symmetry is faster, since less <span>$k$</span>-points are explicitly treated:</p><pre><code class="language-julia">(length(basis_sym.kpoints), length(basis_nosym.kpoints))</code></pre><pre><code class="language-none">(8, 64)</code></pre><p>Both SCFs would even agree in the convergence history if exact diagonalization was used for the eigensolver in each step of both SCFs. But since DFTK adjusts this <code>diagtol</code> value adaptively during the SCF to increase performance, a slightly different history is obtained. Try adding the keyword argument <code>determine_diagtol=(args...; kwargs...) -&gt; 1e-8</code> in each SCF call to fix the diagonalization tolerance to be <code>1e-8</code> for all SCF steps, which will result in an almost identical convergence history.</p><p>We can also explicitly verify both methods to yield the same density:</p><pre><code class="language-julia">(norm(scfres_sym.ρ.real - scfres_nosym.ρ.real),
- norm(values(scfres_sym.energies) .- values(scfres_nosym.energies)))</code></pre><pre><code class="language-none">(8.167234622936689e-5, 3.720060442997362e-5)</code></pre><p>To demonstrate the mapping between <code>k</code>-points due to symmetry, we pick an arbitrary <code>k</code>-point in the irreducible Brillouin zone:</p><pre><code class="language-julia">ikpt_irred = 2
+  1    -7.865351917144    1.680460E-02
+  2    -7.867191423966    5.283528E-03
+  3    -7.867242189527    4.724282E-04
+  4    -7.867245232127    8.946377E-05
+  5    -7.867245242558    2.392965E-05
+  6    -7.867245243337    1.600009E-06
+  0.676164 seconds (319.95 k allocations: 125.945 MiB, 2.97% gc time)</code></pre><p>Clearly both yield the same energy but the version employing symmetry is faster, since less <span>$k$</span>-points are explicitly treated:</p><pre><code class="language-julia">(length(basis_sym.kpoints), length(basis_nosym.kpoints))</code></pre><pre><code class="language-none">(8, 64)</code></pre><p>Both SCFs would even agree in the convergence history if exact diagonalization was used for the eigensolver in each step of both SCFs. But since DFTK adjusts this <code>diagtol</code> value adaptively during the SCF to increase performance, a slightly different history is obtained. Try adding the keyword argument <code>determine_diagtol=(args...; kwargs...) -&gt; 1e-8</code> in each SCF call to fix the diagonalization tolerance to be <code>1e-8</code> for all SCF steps, which will result in an almost identical convergence history.</p><p>We can also explicitly verify both methods to yield the same density:</p><pre><code class="language-julia">(norm(scfres_sym.ρ.real - scfres_nosym.ρ.real),
+ norm(values(scfres_sym.energies) .- values(scfres_nosym.energies)))</code></pre><pre><code class="language-none">(5.500459558517675e-5, 3.174465952242869e-5)</code></pre><p>To demonstrate the mapping between <code>k</code>-points due to symmetry, we pick an arbitrary <code>k</code>-point in the irreducible Brillouin zone:</p><pre><code class="language-julia">ikpt_irred = 2
 kpt_irred_coord = basis_sym.kpoints[ikpt_irred].coordinate
 basis_sym.ksymops[ikpt_irred]</code></pre><pre><code class="language-none">8-element Array{Tuple{StaticArrays.SArray{Tuple{3,3},Int64,2,9},StaticArrays.SArray{Tuple{3},Float64,1,3}},1}:
  ([1 0 0; 0 1 0; 0 0 1], [0.0, 0.0, 0.0])   
@@ -42,9 +42,9 @@ ikpt_red = findfirst(kcoord -&gt; kcoord ≈ kpt_red_coord,
                      [k.coordinate for k in basis_nosym.kpoints])
 [scfres_sym.eigenvalues[ikpt_irred] scfres_nosym.eigenvalues[ikpt_red]]</code></pre><pre><code class="language-none">7×2 Array{Float64,2}:
  -0.140386  -0.140384
-  0.120677   0.120681
-  0.233625   0.233626
-  0.233625   0.233629
-  0.343175   0.343177
-  0.39198    0.391981
-  0.39198    0.391984</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../useful_formulas/">« Useful formulas</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 9 June 2020 19:03">Tuesday 9 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  0.120678   0.120681
+  0.233625   0.233625
+  0.233625   0.23363 
+  0.343176   0.343177
+  0.391981   0.39198 
+  0.391981   0.391984</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../useful_formulas/">« Useful formulas</a><a class="docs-footer-nextpage" href="../../api/">API reference »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 10 June 2020 08:37">Wednesday 10 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
