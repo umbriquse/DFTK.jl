@@ -51,18 +51,18 @@ end</code></pre><p>That&#39;s it! Now we just run the SCF with these solvers</p>
                                eigensolver=my_eig_solver,
                                mixing=MyMixing());</code></pre><pre><code class="language-none">Iter   Energy             ρout-ρin
 ----   ------             --------
-  1    -7.166864152879    3.621654E-01
-  2    -7.238616681087    1.826981E-01
-  3    -7.247822849851    7.736030E-02
-  4    -7.248791085965    4.223417E-02
-  5    -7.249087294750    2.332969E-02
-  6    -7.249176872284    1.308176E-02
-  7    -7.249204219070    7.456276E-03
-  8    -7.249212750601    4.320407E-03
-  9    -7.249215491475    2.543073E-03
- 10    -7.249216402278    1.518729E-03
- 11    -7.249216715866    9.188093E-04
- 12    -7.249216827647    5.622048E-04
- 13    -7.249216868788    3.473830E-04
- 14    -7.249216884363    2.164416E-04
- 15    -7.249216890400    1.358100E-04</code></pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 11 June 2020 12:56">Thursday 11 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  1    -7.231196098783    3.194587E-01
+  2    -7.246178074844    1.461567E-01
+  3    -7.248750207429    6.611000E-02
+  4    -7.249063680400    3.637098E-02
+  5    -7.249166356486    2.015923E-02
+  6    -7.249199920160    1.128377E-02
+  7    -7.249211045327    6.390523E-03
+  8    -7.249214819223    3.667906E-03
+  9    -7.249216136003    2.136030E-03
+ 10    -7.249216609416    1.262842E-03
+ 11    -7.249216784646    7.578339E-04
+ 12    -7.249216851247    4.612177E-04
+ 13    -7.249216877146    2.842658E-04
+ 14    -7.249216887410    1.771194E-04
+ 15    -7.249216891541    1.113591E-04</code></pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 12 June 2020 12:54">Friday 12 June 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
