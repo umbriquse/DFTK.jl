@@ -100,8 +100,8 @@ version = "0.5.3"
 
 [[DFTK]]
 deps = ["AbstractFFTs", "Conda", "FFTW", "ForwardDiff", "GenericLinearAlgebra", "Interpolations", "IterTools", "IterativeSolvers", "JSON", "Libxc", "LineSearches", "LinearAlgebra", "LinearMaps", "Markdown", "NCDatasets", "NLsolve", "Optim", "OrderedCollections", "PeriodicTable", "Plots", "Polynomials", "Primes", "Printf", "ProgressMeter", "PyCall", "Requires", "Roots", "SpecialFunctions", "StaticArrays", "TimerOutputs", "spglib_jll"]
-git-tree-sha1 = "b036915ed8e2a500131135c2c26a3eb302cdb3b7"
-repo-rev = "d901b54d21c1944c40b2e56acf499797022acdf5"
+git-tree-sha1 = "1beae388833ef72c9fffebc17adc4c24bb0125e6"
+repo-rev = "e617323478561b81887144be283d04ebc02151f7"
 repo-url = "https://github.com/JuliaMolSim/DFTK.jl.git"
 uuid = "acf6eb54-70d9-11e9-0013-234b7a5f5337"
 version = "0.1.5"
@@ -113,9 +113,9 @@ version = "1.3.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "be680f1ad03c0a03796aa3fda5a2180df7f83b46"
+git-tree-sha1 = "edad9434967fdc0a2631a65d902228400642120c"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.17.18"
+version = "0.17.19"
 
 [[Dates]]
 deps = ["Printf"]
@@ -306,9 +306,9 @@ uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
 [[Libiconv_jll]]
 deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "a06937d9aa48855f52484c9a77a2670158fa90e2"
+git-tree-sha1 = "c9d4035d7481bcdff2babf5a55525a818ef8ed8f"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.0+4"
+version = "1.16.0+5"
 
 [[Libxc]]
 deps = ["Libxc_jll"]
@@ -365,9 +365,9 @@ version = "1.0.2"
 
 [[MbedTLS_jll]]
 deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "c83f5a1d038f034ad0549f9ee4d5fac3fb429e33"
+git-tree-sha1 = "f85473aeb7a2561a5c58c06c4868971ebe2bcbff"
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.16.0+2"
+version = "2.16.6+0"
 
 [[Measures]]
 git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
@@ -425,9 +425,9 @@ version = "1.3.4+0"
 
 [[OpenSSL_jll]]
 deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "d120f3b7173eba8b55b7008fa576e46dbd5da536"
+git-tree-sha1 = "7aaaded15bf393b5f34c2aad5b765c18d26cb495"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.1+3"
+version = "1.1.1+4"
 
 [[OpenSpecFun_jll]]
 deps = ["CompilerSupportLibraries_jll", "Libdl", "Pkg"]
@@ -671,15 +671,15 @@ version = "0.5.2"
 
 [[XML2_jll]]
 deps = ["Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "3373365e0a5207c3b561c1ade6ef74189dd37678"
+git-tree-sha1 = "432d91f45e950f2f2bda5c0f4e2b938c14493af9"
 uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
-version = "2.9.10+0"
+version = "2.9.10+1"
 
 [[Zlib_jll]]
 deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "33d31d2b2a24d2fdbc60633b68229ee462811c8b"
+git-tree-sha1 = "622d8b6dc0c7e8029f17127703de9819134d1b71"
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.11+13"
+version = "1.2.11+14"
 
 [[libass_jll]]
 deps = ["Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "Libdl", "Pkg", "Zlib_jll"]
