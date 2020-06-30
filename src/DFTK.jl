@@ -112,12 +112,14 @@ export scf_damping_solver
 export scf_anderson_solver
 export scf_CROP_solver
 export self_consistent_field
+export potential_mixing
 export direct_minimization
 include("scf/chi0models.jl")
 include("scf/mixing.jl")
 include("scf/scf_solvers.jl")
 include("scf/self_consistent_field.jl")
 include("scf/direct_minimization.jl")
+include("scf/potential_mixing.jl")
 
 export symmetry_operations
 export standardize_atoms
