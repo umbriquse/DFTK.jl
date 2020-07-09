@@ -1,6 +1,6 @@
 # Very basic setup, useful for testing
 using DFTK
-using Plots
+#  using Plots
 
 a = 10.26  # Silicon lattice constant in Bohr
 lattice = a / 2 * [[0 1 1.];

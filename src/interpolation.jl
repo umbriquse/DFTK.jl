@@ -109,7 +109,7 @@ function grid_interpolation_indices(basis_in, basis_out)
     # build the complement indices of basis_out that are not in basis_in
     # create empty arrays if there is at least one nothing in idcs_out[ik]
     idcs_out_cplmt = [[id for id in 1:length(G_vectors(basis_out.kpoints[ik]))
-                       if any(isnothing, idcs_out[ik]) && !(id in idcs_out[ik])]
+                       if !any(isnothing, idcs_out[ik]) && !(id in idcs_out[ik])]
                       for ik in 1:length(basis_in.kpoints)]
 
     (idcs_out, idcs_out_cplmt)
@@ -134,7 +134,11 @@ function interpolate_blochwave(ψ_in, basis_in, basis_out)
     # separating indices from basis_in that are in basis_out from those that are
     # not in basis_out, eventually idcs_in[ik] contains nothing, in which case
     # idcs_in_cplmt[ik] = [] when the output grid is bigger
-    idcs_in, idcs_in_cplmt = grid_interpolation_indices(basis_out, basis_in)
+    if basis_out.Ecut <= basis_in.Ecut
+        idcs_in, idcs_in_cplmt = grid_interpolation_indices(basis_out, basis_in)
+    else
+        idcs_in = nothing
+    end
 
     # Small talk on what we did here :
     # When Ecut_out > Ecut_in, only idcs_out is needed. Sometimes, we might need
