@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Creating supercells with pymatgen · DFTK.jl</title><link rel="canonical" href="https://juliamolsim.github.io/DFTK.jl/stable/examples/pymatgen/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="DFTK.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit">DFTK.jl</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Getting started</span><ul><li><a class="tocitem" href="../../guide/installation/">Installation</a></li><li><a class="tocitem" href="../../guide/tutorial/">Tutorial</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../metallic_systems/">Temperature and metallic systems</a></li><li class="is-active"><a class="tocitem" href>Creating supercells with pymatgen</a></li><li><a class="tocitem" href="../ase/">Creating slabs with ASE</a></li><li><a class="tocitem" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension</a></li><li><a class="tocitem" href="../gross_pitaevskii_2D/">Gross-Pitaevskii equation with magnetism</a></li><li><a class="tocitem" href="../cohen_bergstresser/">Cohen-Bergstresser model</a></li><li><a class="tocitem" href="../arbitrary_floattype/">Arbitrary floating-point types</a></li><li><a class="tocitem" href="../scf_callbacks/">Monitoring self-consistent field calculations</a></li><li><a class="tocitem" href="../custom_solvers/">Custom solvers</a></li><li><a class="tocitem" href="../custom_potential/">Custom potential</a></li></ul></li><li><span class="tocitem">Advanced topics</span><ul><li><a class="tocitem" href="../../advanced/conventions/">Notation and conventions</a></li><li><a class="tocitem" href="../../advanced/data_structures/">Data structures</a></li><li><a class="tocitem" href="../../advanced/useful_formulas/">Useful formulas</a></li><li><a class="tocitem" href="../../advanced/symmetries/">Crystal symmetries</a></li></ul></li><li><a class="tocitem" href="../../api/">API reference</a></li><li><a class="tocitem" href="../../publications/">Publications</a></li><li><a class="tocitem" href="../../contributing/">Contributing</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Creating supercells with pymatgen</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Creating supercells with pymatgen</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaMolSim/DFTK.jl/blob/master/examples/pymatgen.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Creating-supercells-with-pymatgen"><a class="docs-heading-anchor" href="#Creating-supercells-with-pymatgen">Creating supercells with pymatgen</a><a id="Creating-supercells-with-pymatgen-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-supercells-with-pymatgen" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/JuliaMolSim/DFTK.jl/gh-pages?filepath=dev/examples/pymatgen.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/JuliaMolSim/DFTK.jl/blob/gh-pages/dev/examples/pymatgen.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>The <a href="https://pymatgen.org/">Pymatgen</a> python library allows to setup solid-state calculations using a flexible set of classes as well as an API to an online data base of structures. Its <code>Structure</code> and <code>Lattice</code> objects are directly supported by the DFTK <code>load_atoms</code> and <code>load_lattice</code> functions, such that DFTK may be readily used to run calculation on systems defined in pymatgen. Using the <code>pymatgen_structure</code> function a conversion from DFTK to pymatgen structures is also possible. In the following we use this to create a silicon supercell and find its LDA ground state using direct minimisation.</p><p>First we setup the silicon lattice in DFTK.</p><pre><code class="language-julia">using DFTK
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Creating supercells with pymatgen · DFTK.jl</title><link rel="canonical" href="https://juliamolsim.github.io/DFTK.jl/stable/examples/pymatgen/"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="DFTK.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit">DFTK.jl</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Getting started</span><ul><li><a class="tocitem" href="../../guide/installation/">Installation</a></li><li><a class="tocitem" href="../../guide/tutorial/">Tutorial</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../metallic_systems/">Temperature and metallic systems</a></li><li class="is-active"><a class="tocitem" href>Creating supercells with pymatgen</a></li><li><a class="tocitem" href="../ase/">Creating slabs with ASE</a></li><li><a class="tocitem" href="../geometry_optimization/">Geometry optimization</a></li><li><a class="tocitem" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension</a></li><li><a class="tocitem" href="../gross_pitaevskii_2D/">Gross-Pitaevskii equation with magnetism</a></li><li><a class="tocitem" href="../cohen_bergstresser/">Cohen-Bergstresser model</a></li><li><a class="tocitem" href="../arbitrary_floattype/">Arbitrary floating-point types</a></li><li><a class="tocitem" href="../scf_callbacks/">Monitoring self-consistent field calculations</a></li><li><a class="tocitem" href="../custom_solvers/">Custom solvers</a></li><li><a class="tocitem" href="../custom_potential/">Custom potential</a></li></ul></li><li><span class="tocitem">Advanced topics</span><ul><li><a class="tocitem" href="../../advanced/conventions/">Notation and conventions</a></li><li><a class="tocitem" href="../../advanced/data_structures/">Data structures</a></li><li><a class="tocitem" href="../../advanced/useful_formulas/">Useful formulas</a></li><li><a class="tocitem" href="../../advanced/symmetries/">Crystal symmetries</a></li></ul></li><li><a class="tocitem" href="../../api/">API reference</a></li><li><a class="tocitem" href="../../publications/">Publications</a></li><li><a class="tocitem" href="../../contributing/">Contributing</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Creating supercells with pymatgen</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Creating supercells with pymatgen</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaMolSim/DFTK.jl/blob/master/examples/pymatgen.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Creating-supercells-with-pymatgen"><a class="docs-heading-anchor" href="#Creating-supercells-with-pymatgen">Creating supercells with pymatgen</a><a id="Creating-supercells-with-pymatgen-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-supercells-with-pymatgen" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/JuliaMolSim/DFTK.jl/gh-pages?filepath=dev/examples/pymatgen.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/JuliaMolSim/DFTK.jl/blob/gh-pages/dev/examples/pymatgen.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>The <a href="https://pymatgen.org/">Pymatgen</a> python library allows to setup solid-state calculations using a flexible set of classes as well as an API to an online data base of structures. Its <code>Structure</code> and <code>Lattice</code> objects are directly supported by the DFTK <code>load_atoms</code> and <code>load_lattice</code> functions, such that DFTK may be readily used to run calculation on systems defined in pymatgen. Using the <code>pymatgen_structure</code> function a conversion from DFTK to pymatgen structures is also possible. In the following we use this to create a silicon supercell and find its LDA ground state using direct minimisation.</p><p>First we setup the silicon lattice in DFTK.</p><pre><code class="language-julia">using DFTK
 
 a = 10.263141334305942  # Lattice constant in Bohr
 lattice = a / 2 .* [[0 1 1.]; [1 0 1.]; [1 1 0.]]
@@ -9,139 +9,133 @@ pystruct.make_supercell([2, 2, 2])
 lattice = load_lattice(pystruct)
 atoms = [Si =&gt; [s.frac_coords for s in pystruct.sites]];</code></pre><p>Setup an LDA model and discretize using a single kpoint and a small <code>Ecut</code> of 5 Hartree.</p><pre><code class="language-julia">model = model_LDA(lattice, atoms)
 basis = PlaneWaveBasis(model, 5, kgrid=(1, 1, 1))</code></pre><pre><code class="language-none">PlaneWaveBasis (Ecut=5.0, 1 kpoints)</code></pre><p>Find the ground state using direct minimisation (always using SCF is boring ...)</p><pre><code class="language-julia">scfres = direct_minimization(basis, tol=1e-5);</code></pre><pre><code class="language-none">Iter     Function value   Gradient norm
-     0     1.113626e+02     1.688492e+00
- * time: 0.06653594970703125
-     1     1.061494e+01     8.383523e-01
- * time: 0.20032501220703125
-     2    -1.231791e+01     9.397075e-01
- * time: 0.31930994987487793
-     3    -3.446849e+01     7.867414e-01
- * time: 0.4946107864379883
-     4    -4.797597e+01     5.600861e-01
- * time: 0.6413478851318359
-     5    -5.707639e+01     2.026357e-01
- * time: 0.8089280128479004
-     6    -5.990771e+01     1.070011e-01
- * time: 0.9277830123901367
-     7    -6.091463e+01     5.670240e-02
- * time: 1.066187858581543
-     8    -6.128227e+01     7.526146e-02
- * time: 1.1794898509979248
-     9    -6.159498e+01     3.066035e-02
- * time: 1.309664011001587
-    10    -6.180681e+01     2.928217e-02
- * time: 1.4212968349456787
-    11    -6.196479e+01     2.115795e-02
- * time: 1.5343959331512451
-    12    -6.203068e+01     1.881786e-02
- * time: 1.6603269577026367
-    13    -6.209738e+01     1.656227e-02
- * time: 1.784369945526123
-    14    -6.213312e+01     1.400108e-02
- * time: 1.9138689041137695
-    15    -6.216676e+01     1.034780e-02
- * time: 2.0288329124450684
-    16    -6.218433e+01     8.216062e-03
- * time: 2.1430490016937256
-    17    -6.219515e+01     7.082853e-03
- * time: 2.2788867950439453
-    18    -6.220190e+01     4.754843e-03
- * time: 2.395519971847534
-    19    -6.220574e+01     4.608312e-03
- * time: 2.523131847381592
-    20    -6.220812e+01     3.831272e-03
- * time: 2.642453908920288
-    21    -6.220991e+01     4.536398e-03
- * time: 2.768810987472534
-    22    -6.221159e+01     4.904682e-03
- * time: 2.886356830596924
-    23    -6.221329e+01     5.741350e-03
- * time: 2.997919797897339
-    24    -6.221489e+01     6.324111e-03
- * time: 3.1242458820343018
-    25    -6.221678e+01     7.520310e-03
- * time: 3.239766836166382
-    26    -6.221952e+01     8.913873e-03
- * time: 3.3685078620910645
-    27    -6.222368e+01     8.954819e-03
- * time: 3.4784889221191406
-    28    -6.222946e+01     1.051615e-02
- * time: 3.589751958847046
-    29    -6.223790e+01     9.505445e-03
- * time: 3.7188618183135986
-    30    -6.224636e+01     7.445640e-03
- * time: 3.8289008140563965
-    31    -6.225162e+01     5.809530e-03
- * time: 3.950305938720703
-    32    -6.225549e+01     3.861959e-03
- * time: 4.060954809188843
-    33    -6.225773e+01     3.272649e-03
- * time: 4.184387922286987
-    34    -6.225929e+01     2.948304e-03
- * time: 4.294290781021118
-    35    -6.226020e+01     2.856186e-03
- * time: 4.402800798416138
-    36    -6.226082e+01     1.391821e-03
- * time: 4.524720907211304
-    37    -6.226118e+01     1.137291e-03
- * time: 4.635044813156128
-    38    -6.226137e+01     9.243818e-04
- * time: 4.755850791931152
-    39    -6.226148e+01     9.200714e-04
- * time: 4.8672709465026855
-    40    -6.226155e+01     5.299681e-04
- * time: 4.97767186164856
-    41    -6.226159e+01     4.709818e-04
- * time: 5.10063099861145
-    42    -6.226161e+01     3.983221e-04
- * time: 5.21090292930603
-    43    -6.226163e+01     3.727919e-04
- * time: 5.336044788360596
-    44    -6.226165e+01     3.056308e-04
- * time: 5.446676969528198
-    45    -6.226165e+01     2.092604e-04
- * time: 5.5632898807525635
-    46    -6.226166e+01     1.301549e-04
- * time: 5.683104991912842
-    47    -6.226166e+01     9.127704e-05
- * time: 5.793879985809326
-    48    -6.226166e+01     8.498485e-05
- * time: 5.919159889221191
-    49    -6.226166e+01     6.589377e-05
- * time: 6.028597831726074
-    50    -6.226167e+01     6.242508e-05
- * time: 6.148559808731079
-    51    -6.226167e+01     5.072878e-05
- * time: 6.257500886917114
-    52    -6.226167e+01     3.918140e-05
- * time: 6.367019891738892
-    53    -6.226167e+01     3.062024e-05
- * time: 6.489784002304077
-    54    -6.226167e+01     2.265124e-05
- * time: 6.599891901016235
-    55    -6.226167e+01     1.490920e-05
- * time: 6.721367835998535
-    56    -6.226167e+01     1.117404e-05
- * time: 6.8319549560546875
-    57    -6.226167e+01     8.071362e-06
- * time: 6.953524827957153
-    58    -6.226167e+01     7.848610e-06
- * time: 7.062186002731323
-    59    -6.226167e+01     5.983594e-06
- * time: 7.1725850105285645
-    60    -6.226167e+01     4.562187e-06
- * time: 7.292176008224487
-    61    -6.226167e+01     3.029653e-06
- * time: 7.402575969696045
-    62    -6.226167e+01     2.559153e-06
- * time: 7.522832870483398</code></pre><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
-    Kinetic             25.7671065
-    AtomicLocal         -18.8557681
-    AtomicNonlocal      14.8522654
+     0     1.122475e+02     1.577566e+00
+ * time: 0.06376504898071289
+     1     1.032446e+01     1.161413e+00
+ * time: 0.20501995086669922
+     2    -1.284568e+01     1.223985e+00
+ * time: 0.30880308151245117
+     3    -3.474672e+01     8.577470e-01
+ * time: 0.47052597999572754
+     4    -4.832425e+01     6.724963e-01
+ * time: 0.6042499542236328
+     5    -5.725352e+01     2.525124e-01
+ * time: 0.7518720626831055
+     6    -5.992968e+01     1.395722e-01
+ * time: 0.8553810119628906
+     7    -6.099271e+01     6.229632e-02
+ * time: 0.9706239700317383
+     8    -6.143544e+01     4.863480e-02
+ * time: 1.0747599601745605
+     9    -6.168095e+01     4.140282e-02
+ * time: 1.1904559135437012
+    10    -6.186090e+01     3.087908e-02
+ * time: 1.2958450317382812
+    11    -6.199430e+01     2.300528e-02
+ * time: 1.4016408920288086
+    12    -6.207481e+01     1.524495e-02
+ * time: 1.5175979137420654
+    13    -6.211960e+01     1.310183e-02
+ * time: 1.6224761009216309
+    14    -6.215920e+01     1.260097e-02
+ * time: 1.7372660636901855
+    15    -6.217801e+01     9.666164e-03
+ * time: 1.8430280685424805
+    16    -6.219098e+01     6.797160e-03
+ * time: 1.946810007095337
+    17    -6.219858e+01     5.502554e-03
+ * time: 2.061624050140381
+    18    -6.220402e+01     4.961051e-03
+ * time: 2.1659669876098633
+    19    -6.220735e+01     3.620756e-03
+ * time: 2.2801530361175537
+    20    -6.220995e+01     3.463280e-03
+ * time: 2.385209083557129
+    21    -6.221197e+01     3.650517e-03
+ * time: 2.4891579151153564
+    22    -6.221366e+01     3.735430e-03
+ * time: 2.604167938232422
+    23    -6.221515e+01     3.317205e-03
+ * time: 2.7088799476623535
+    24    -6.221663e+01     3.520359e-03
+ * time: 2.8249359130859375
+    25    -6.221833e+01     4.548299e-03
+ * time: 2.929226875305176
+    26    -6.222090e+01     5.123353e-03
+ * time: 3.0333189964294434
+    27    -6.222489e+01     6.164896e-03
+ * time: 3.1478168964385986
+    28    -6.223011e+01     5.844295e-03
+ * time: 3.252678871154785
+    29    -6.223913e+01     7.480699e-03
+ * time: 3.3666179180145264
+    30    -6.224797e+01     6.346695e-03
+ * time: 3.4723711013793945
+    31    -6.225337e+01     4.835907e-03
+ * time: 3.5768609046936035
+    32    -6.225678e+01     3.224417e-03
+ * time: 3.692262887954712
+    33    -6.225874e+01     2.383055e-03
+ * time: 3.7970850467681885
+    34    -6.226008e+01     1.714835e-03
+ * time: 3.9145538806915283
+    35    -6.226069e+01     1.807036e-03
+ * time: 4.020761966705322
+    36    -6.226107e+01     1.037169e-03
+ * time: 4.127105951309204
+    37    -6.226128e+01     1.009563e-03
+ * time: 4.243113040924072
+    38    -6.226140e+01     7.310099e-04
+ * time: 4.348082065582275
+    39    -6.226149e+01     5.719034e-04
+ * time: 4.465075969696045
+    40    -6.226155e+01     5.206531e-04
+ * time: 4.570236921310425
+    41    -6.226159e+01     4.020203e-04
+ * time: 4.675656080245972
+    42    -6.226162e+01     2.957283e-04
+ * time: 4.791589021682739
+    43    -6.226164e+01     2.687878e-04
+ * time: 4.898087024688721
+    44    -6.226165e+01     1.586039e-04
+ * time: 5.014056921005249
+    45    -6.226166e+01     1.707347e-04
+ * time: 5.119411945343018
+    46    -6.226166e+01     8.794414e-05
+ * time: 5.225085973739624
+    47    -6.226166e+01     6.970397e-05
+ * time: 5.340869903564453
+    48    -6.226166e+01     5.806213e-05
+ * time: 5.446398973464966
+    49    -6.226167e+01     4.160834e-05
+ * time: 5.564831018447876
+    50    -6.226167e+01     3.455252e-05
+ * time: 5.671133041381836
+    51    -6.226167e+01     3.236418e-05
+ * time: 5.777419090270996
+    52    -6.226167e+01     2.908683e-05
+ * time: 5.8945910930633545
+    53    -6.226167e+01     2.189351e-05
+ * time: 6.000906944274902
+    54    -6.226167e+01     1.758665e-05
+ * time: 6.116563081741333
+    55    -6.226167e+01     1.555396e-05
+ * time: 6.221428871154785
+    56    -6.226167e+01     9.411576e-06
+ * time: 6.326663970947266
+    57    -6.226167e+01     6.703372e-06
+ * time: 6.443185091018677
+    58    -6.226167e+01     5.468536e-06
+ * time: 6.549161911010742
+    59    -6.226167e+01     4.426785e-06
+ * time: 6.6655120849609375</code></pre><pre><code class="language-julia">scfres.energies</code></pre><pre><code class="language-none">Energy breakdown:
+    Kinetic             25.7671099
+    AtomicLocal         -18.8557775
+    AtomicNonlocal      14.8522685
     Ewald               -67.1831486
     PspCorrection       -2.3569765
-    Hartree             4.8485366 
-    Xc                  -19.3336818
+    Hartree             4.8485416 
+    Xc                  -19.3336838
 
-    total               -62.261666461441
-</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../metallic_systems/">« Temperature and metallic systems</a><a class="docs-footer-nextpage" href="../ase/">Creating slabs with ASE »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 8 July 2020 11:41">Wednesday 8 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    total               -62.261666456389
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../metallic_systems/">« Temperature and metallic systems</a><a class="docs-footer-nextpage" href="../ase/">Creating slabs with ASE »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 15 July 2020 08:00">Wednesday 15 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
