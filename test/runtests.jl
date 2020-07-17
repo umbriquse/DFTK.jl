@@ -83,5 +83,9 @@ Random.seed!(0)
         include("kernel.jl")
     end
 
+    if "all" in TAGS || "aposteriori" in TAGS
+        include("aposteriori_Ecut2.jl")
+    end
+
     ("example" in TAGS) && include("runexamples.jl")
 end

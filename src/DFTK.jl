@@ -168,6 +168,9 @@ export compute_χ0
 export apply_χ0
 include("postprocess/chi0.jl")
 
+# TODO Cleanup file names exports, etc ...
+include("aposteriori/aposteriori.jl")
+
 function __init__()
     # Use "@require" to only include fft_generic.jl once IntervalArithmetic or
     # DoubleFloats has been loaded (via a "using" or an "import").
