@@ -22,6 +22,7 @@ export Mat3
 include("common/types.jl")
 include("common/check_real.jl")
 include("common/spherical_harmonics.jl")
+include("common/gaussian_integrals.jl")
 export Smearing
 include("Smearing.jl")
 

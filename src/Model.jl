@@ -86,7 +86,7 @@ function Model(lattice::AbstractMatrix{T};
     end
 
     # Special handling of 1D and 2D systems, and sanity checks
-    d = 3-count(c -> norm(c) == 0, eachcol(lattice))
+    d = 3 - count(c -> norm(c) == 0, eachcol(lattice))
     d > 0 || error("Check your lattice; we do not do 0D systems")
     for i = d+1:3
         norm(lattice[:, i]) == norm(lattice[i, :]) == 0 || error(

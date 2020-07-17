@@ -1,7 +1,8 @@
 using Polynomials
 
 @doc raw"""
-Returns the result of the integral ``∫_τ^∞ t^k exp(-t^2 / σ) dt``
+Returns the result of the integral ``∫_τ^∞ t^k exp(-t^2 / σ) dt`` or (if `upper_bound_ok`)
+an easily computable upper bound to it.
 """
 function integral_monomial_gaussian(k::Integer, τ::T; σ=1, upper_bound_ok=false) where T
     @assert k ≥ -4
@@ -45,7 +46,8 @@ function integral_monomial_gaussian(k::Integer, τ::T; σ=1, upper_bound_ok=fals
     #
     ## Fallback by recursion
     else
-        σ * τ^(k - 1) / 2 * exp(-τdσ^2) + σ * (k - 1) / 2 * integral_monomial_gaussian(k - 2, τ, σ=σ)
+        (σ * τ^(k - 1) / 2 * exp(-τdσ^2) + σ * (k - 1) / 2
+           * integral_monomial_gaussian(k - 2, τ, σ=σ, upper_bound_ok=upper_bound_ok))
     end
 end
 
@@ -56,30 +58,42 @@ where `P` is a polynomial in `t`
 function integral_polynomial_gaussian(P::Polynomial, τ::T; k=0, σ=1, upper_bound_ok=false) where T
     # -1 translates from index in coeff to power in t
     sum(coeff * integral_monomial_gaussian(i + k - 1, τ, σ=σ, upper_bound_ok=upper_bound_ok)
-        for (i, coeff) in enumerate(P.a) if coeff != 0)
+        for (i, coeff) in enumerate(P.coeffs) if coeff != 0)
 end
 
 @doc raw"""
 Computes an upper bound for the sum ``∑_{|G| > G0} |β G|^k Q(|β G|) exp(-|β G|^2 / σ)``
-where all `G` are on a lattice defined by `recip_lattice`, `β` and `σ` are a positive
+where all `G` are on a lattice defined by `recip_lattice`, `β` and `σ` are positive
 constants, `k` is integer and `Q` is a polynomial both chosen such that
 ``t^k Q(t) exp(-t / σ)`` is a decreasing function for `t > G0`.
 """
 function bound_sum_polynomial_gaussian(polynomial::Polynomial{T}, recip_lattice, G0::T;
                                        β=1, σ=1, k=0, Gmin=G0) where {T}
-    # Determine dimensionality: Note: Clashes with usual DFTK convention
+    # TODO new:
+    # Determine dimensionality:
+    # Ignore zero rows and columns in recip_lattice
+    # (DFTK convention for reduced-dimensional lattices)
+    # m = size(recip_lattice, 1)
+    # d = m - count(c -> norm(c) == 0, eachcol(recip_lattice))
+    # if d != m
+    #     recip_lattice = recip_lattice[1:d, 1:d]
+    #     m = d
+    # end
+
+    # old
     @assert !iszero(recip_lattice[:, end])
     m = size(recip_lattice, 1)
+    #end old
     @assert size(recip_lattice) == (m, m)
 
     # Diameter of recip_lattice unit cell.
     diameter = norm(recip_lattice * ones(m))
-    @assert diameter ≥ 0  # We assume lattice to be positively orianted
+    @assert diameter ≥ 0  # We assume lattice to be positively oriented
     @assert Gmin > 0
     @assert G0 ≤ Gmin
 
     # The terms (depending on β, n and G) we sum over.
-    term(β, n, G) = (β * G)^n * polynomial(β * G) * exp(-β*G^2)
+    term(β, n, G) = (β * G)^n * polynomial(β * G) * exp(-β*G^2 / σ)
 
     if m == 1
         a = abs(recip_lattice[1, 1])
