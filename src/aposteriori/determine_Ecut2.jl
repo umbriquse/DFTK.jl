@@ -90,7 +90,9 @@ function determine_Ecut2_nonlocal(psp::PspHgh, Ecut, brillouin_zone_diameter)
         push!(minimal_Ecuts, (qcut + brillouin_zone_diameter)^2 / 2)
     end
 
-    # TODO The 2 here is an arbitrary fudge factor, which turned out to make
+    # TODO The 4 here is an arbitrary fudge factor, which turned out to make
     #      the explicitly computed part of the residual dominate in silicon.
-    2maximum(minimal_Ecuts)
+    #
+    #      Actually it might make sense to reduce this to 2
+    4maximum(minimal_Ecuts)
 end

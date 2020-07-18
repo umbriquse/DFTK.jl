@@ -86,6 +86,7 @@ Random.seed!(0)
     if "all" in TAGS || "aposteriori" in TAGS
         include("gaussian_integrals.jl")
         include("aposteriori_Ecut2.jl")
+        include("aposteriori_bound_residual.jl")
     end
 
     ("example" in TAGS) && include("runexamples.jl")

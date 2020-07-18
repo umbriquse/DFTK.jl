@@ -371,6 +371,10 @@ function r_to_G_matrix(basis::PlaneWaveBasis{T}) where {T}
     ret
 end
 
+
+# TODO One can think of a number of basis-changing constructors here
+#      E.g. also kpoint changes. Would be good to unify them somehow.
+
 """"
 Convert a `basis` into one that uses or doesn't use BZ symmetrization
 Mainly useful for debug purposes (e.g. in cases we don't want to
@@ -390,4 +394,12 @@ function PlaneWaveBasis(basis::PlaneWaveBasis; use_symmetry)
     new_basis = PlaneWaveBasis(basis.model, basis.Ecut, kcoords,
                                [[identity_symop()] for _ in 1:length(kcoords)];
                                fft_size=basis.fft_size)
+end
+
+"""
+Convert a `basis` into one with a different value for Ecut.
+"""
+function PlaneWaveBasis(basis::PlaneWaveBasis, Ecut::Number; kwargs...)
+    kcoords = [kpt.coordinate for kpt in basis.kpoints]
+    PlaneWaveBasis(basis.model, Ecut, kcoords, basis.ksymops, basis.symops; kwargs...)
 end

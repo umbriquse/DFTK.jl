@@ -34,3 +34,6 @@ end
     @test determine_Ecut2(make_basis( 30)) ≥ 120
     @test determine_Ecut2(make_basis(100)) ≥ 400
 end
+
+
+# For Mg Ecut 10 the Ecut2 is 4minimal_Ecut2(basis) is 76.81033067937457
