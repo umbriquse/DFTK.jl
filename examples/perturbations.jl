@@ -345,7 +345,7 @@ DFTK.@timing function perturbation(basis::PlaneWaveBasis,
         # compute the eigenvalue perturbation λp = λ + λ2 + λ3
         # first order peturbation = 0
         #  H_ref = scfres_ref.ham
-        egvalp2, egvalp3 = perturbed_eigenvalues(basis_fine, Hp_fine,
+        egvalp2, egvalp3 = perturbed_eigenvalues(basis_fine, H_fine,
                                                  H_fine, H_fine,
                                                  ψ1_fine, ψ_fine,
                                                  total_pot_avg, egval, occ)

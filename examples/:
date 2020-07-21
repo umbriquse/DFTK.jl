@@ -40,16 +40,13 @@ idx_Gvec = findfirst(isequal(Gvec), G_vectors(basis.kpoints[1]))
 ψ_ref = scfres.ψ[1][idx_Gvec, 1]
 #  ψ_ref = scfres.ψ
 
-Ecuts_list = 6:2:10
+Ecuts_list = 6:2:18
 
 err_coarse = []
 err_pert = []
 err_se = []
 
 err_λ_fine = []
-err_λ_fine_kin = []
-err_λ_fine_loc = []
-err_λ_fine_nonloc = []
 err_λ_se = []
 err_λ_coarse = []
 err_λ_coarse_kin = []
@@ -57,9 +54,6 @@ err_λ_coarse_loc = []
 err_λ_coarse_nonloc = []
 err_λ3_pert = []
 err_λ2_pert = []
-err_pert_kin = []
-err_pert_loc = []
-err_pert_nonloc = []
 err_λsp1 = []
 err_λsp2 = []
 err_λsp = []
@@ -142,11 +136,7 @@ for Ecuts in Ecuts_list
     E, V = eigen(H)
     ψ = [V[:, 1:4]]
     ρ = compute_density(basis_fine, ψ, scfres.occupation)
-    nrj_fine, ham = energy_hamiltonian(basis_fine, ψ, scfres.occupation; ρ=ρ)
     push!(err_λ_fine, abs(E[1] - λ_ref))
-    push!(err_λ_fine_kin, abs(nrj_fine["Kinetic"] - nrj_ref_terms["Kinetic"]))
-    push!(err_λ_fine_loc, abs(nrj_fine["AtomicLocal"] - nrj_ref_terms["AtomicLocal"]))
-    push!(err_λ_fine_nonloc, abs(nrj_fine["AtomicNonlocal"] - nrj_ref_terms["AtomicNonlocal"]))
     push!(err_ψ_fine, abs(abs2(ψ[1][idx_Gvec_fine, 1]) - abs2(ψ_ref)))
 
     # Rayleigh coefficients to compare with perturbations
@@ -154,8 +144,7 @@ for Ecuts in Ecuts_list
     println("Rayleigh-coeff with self-energy")
     Esp1 = ψs[1]' * (Hs+Σ0(Es[1])) * ψs[1]
     push!(err_λsp1, abs(Esp1[1] - λ_ref))
-
-    Esp2 = ψs[1]' * (Hs+Σ1(Es[1])) * ψs[1]
+    Esp2 = ψs[1]' * (Hs+Σ0(Esp1[1])) * ψs[1]
     push!(err_λsp2, abs(Esp2[1] - λ_ref))
 
     # perturbation
@@ -165,9 +154,6 @@ for Ecuts in Ecuts_list
     Ep_fine, ψp_fine, ρp_fine, egvalp2, egvalp3, egvalp_rr, forcesp_fine, Ep2_fine = perturbation(basis_coarse, kcoords, ksymops, scfres_coarse, 2.5*Ecuts)
     push!(err_pert, abs(sum([Ep_fine[term] for term in terms]) - nrj_ref))
     push!(err_λ3_pert, abs(egvalp3[1][1] - λ_ref))
-    push!(err_pert_kin, abs(Ep_fine["Kinetic"] - nrj_ref_terms["Kinetic"]))
-    push!(err_pert_loc, abs(Ep_fine["AtomicLocal"] - nrj_ref_terms["AtomicLocal"]))
-    push!(err_pert_nonloc, abs(Ep_fine["AtomicNonlocal"] - nrj_ref_terms["AtomicNonlocal"]))
     push!(err_λ2_pert, abs(egvalp2[1][1] - λ_ref))
     push!(err_ψ_pert, abs(abs2(ψp_fine[1][idx_Gvec_fine, 1]) - abs2(ψ_ref)))
     #  ψp_ref, _ = DFTK.interpolate_blochwave(ψp_fine, basis_fine, basis)
@@ -179,7 +165,7 @@ for Ecuts in Ecuts_list
     println("diagonalization of H + Σ0(λ)")
     Esp, Vsp = eigen( Hs + Σ0(Es[1]) )
     ψsp = [Vsp[:, 1:4]]
-    ρsp = compute_density(basis_coarse, ψsp, scfres.occupation)
+    ρsp = compute_density(basis_coarse, ψs, scfres.occupation)
     nrj_sp, hamsp = energy_hamiltonian(basis_coarse, ψsp, scfres.occupation; ρ=ρsp)
     push!(err_λsp, abs(Esp[1] - λ_ref))
     push!(err_ψsp, abs(abs2(ψsp[1][idx_Gvec, 1]) - abs2(ψ_ref)))
@@ -249,18 +235,12 @@ ylabel("error on ψ$(Gvec) = $(abs2(ψ_ref))")
 legend()
 
 figure()
-semilogy(Ecuts_list, err_λ_coarse_kin, "bx-", label="λ coarse kin")
-semilogy(Ecuts_list, err_λ_coarse_loc, "gx-", label="λ coarse loc")
-semilogy(Ecuts_list, err_λ_coarse_nonloc, "rx-", label="λ coarse nonloc")
-semilogy(Ecuts_list, err_λ_fine_kin, "bx:", label="λ fine kin")
-semilogy(Ecuts_list, err_λ_fine_loc, "gx:", label="λ fine loc")
-semilogy(Ecuts_list, err_λ_fine_nonloc, "rx:", label="λ fine nonloc")
-semilogy(Ecuts_list, err_pert_kin, "bx-.", label="λ pert kin")
-semilogy(Ecuts_list, err_pert_loc, "gx-.", label="λ pert loc")
-semilogy(Ecuts_list, err_pert_nonloc, "rx-.", label="λ pert nonloc")
-semilogy(Ecuts_list, err_λsp_kin, "bx--", label="λ Σ0 kin")
-semilogy(Ecuts_list, err_λsp_loc, "gx--", label="λ Σ0 loc")
-semilogy(Ecuts_list, err_λsp_nonloc, "rx--", label="λ Σ0 nonloc")
+semilogy(Ecuts_list, err_λ_coarse_kin, "x-", label="λ coarse kin")
+semilogy(Ecuts_list, err_λ_coarse_loc, "x-", label="λ coarse loc")
+semilogy(Ecuts_list, err_λ_coarse_nonloc, "x-", label="λ coarse nonloc")
+semilogy(Ecuts_list, err_λsp_kin, "x--", label="λ Σ0 kin")
+semilogy(Ecuts_list, err_λsp_loc, "x--", label="λ Σ0 loc")
+semilogy(Ecuts_list, err_λsp_nonloc, "x--", label="λ Σ0 nonloc")
 xlabel("Ecut")
 ylabel("error on energy components")
 legend()
