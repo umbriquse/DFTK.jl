@@ -36,15 +36,15 @@ xres = optimize(Optim.only_fg!(fg!), x0, LBFGS(),
 xmin = Optim.minimizer(xres)
 dmin = norm(lattice*xmin[1:3] - lattice*xmin[4:6])
 @printf &quot;\nOptimal bond length for Ecut=%.2f: %.3f Bohr\n&quot; Ecut dmin</code></pre><pre class="documenter-example-output">Iter     Function value   Gradient norm
-     0    -1.061170e+00     6.234910e-01
- * time: 4.9114227294921875e-5
-     1    -1.065565e+00     3.937833e-02
- * time: 1.8356812000274658
-     2    -1.065592e+00     7.002089e-04
- * time: 3.3657710552215576
-     3    -1.065592e+00     9.564982e-06
- * time: 4.251460075378418
-     4    -1.065592e+00     1.535246e-07
- * time: 5.146703004837036
+     0    -1.061170e+00     6.234797e-01
+ * time: 5.602836608886719e-5
+     1    -1.065562e+00     4.106881e-02
+ * time: 1.816420078277588
+     2    -1.065592e+00     7.719776e-04
+ * time: 3.3538570404052734
+     3    -1.065592e+00     6.553723e-07
+ * time: 4.261188983917236
+     4    -1.065592e+00     2.781866e-08
+ * time: 5.582813024520874
 
-Optimal bond length for Ecut=5.00: 1.557 Bohr</pre><p>We used here very rough parameters to generate the example and setting <code>Ecut</code> to 10 Ha yields a bond length of 1.523 Bohr, which <a href="https://docs.abinit.org/tutorial/base1/">agrees with ABINIT</a>.</p><div class="admonition is-info"><header class="admonition-header">Degrees of freedom</header><div class="admonition-body"><p>We used here a very general setting where we optimized on the 6 variables representing the position of the 2 atoms and it can be easily extended to molecules with more atoms (such as <span>$H_2O$</span>). In the particular case of <span>$H_2$</span>, we could use only the internal degree of freedom which, in this case, is just the bond length.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ase/">« Creating slabs with ASE</a><a class="docs-footer-nextpage" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 22 July 2020 08:41">Wednesday 22 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Optimal bond length for Ecut=5.00: 1.557 Bohr</pre><p>We used here very rough parameters to generate the example and setting <code>Ecut</code> to 10 Ha yields a bond length of 1.523 Bohr, which <a href="https://docs.abinit.org/tutorial/base1/">agrees with ABINIT</a>.</p><div class="admonition is-info"><header class="admonition-header">Degrees of freedom</header><div class="admonition-body"><p>We used here a very general setting where we optimized on the 6 variables representing the position of the 2 atoms and it can be easily extended to molecules with more atoms (such as <span>$H_2O$</span>). In the particular case of <span>$H_2$</span>, we could use only the internal degree of freedom which, in this case, is just the bond length.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ase/">« Creating slabs with ASE</a><a class="docs-footer-nextpage" href="../gross_pitaevskii/">Gross-Pitaevskii equation in one dimension »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 24 July 2020 21:26">Friday 24 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
