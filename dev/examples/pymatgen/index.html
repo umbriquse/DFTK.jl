@@ -9,119 +9,115 @@ pystruct.make_supercell([2, 2, 2])
 lattice = load_lattice(pystruct)
 atoms = [Si =&gt; [s.frac_coords for s in pystruct.sites]];</code></pre><p>Setup an LDA model and discretize using a single kpoint and a small <code>Ecut</code> of 5 Hartree.</p><pre><code class="language-julia">model = model_LDA(lattice, atoms)
 basis = PlaneWaveBasis(model, 5, kgrid=(1, 1, 1))</code></pre><pre class="documenter-example-output">PlaneWaveBasis (Ecut=5.0, 1 kpoints)</pre><p>Find the ground state using direct minimisation (always using SCF is boring ...)</p><pre><code class="language-julia">scfres = direct_minimization(basis, tol=1e-5);</code></pre><pre class="documenter-example-output">Iter     Function value   Gradient norm
-     0     1.122104e+02     1.703631e+00
- * time: 0.0662679672241211
-     1     1.094649e+01     9.147765e-01
- * time: 0.18819379806518555
-     2    -1.163723e+01     1.092507e+00
- * time: 0.3167579174041748
-     3    -3.407188e+01     8.007444e-01
- * time: 0.4556159973144531
-     4    -4.759665e+01     6.132086e-01
- * time: 0.6127560138702393
-     5    -5.675087e+01     2.316156e-01
- * time: 0.7567508220672607
-     6    -5.962025e+01     1.669039e-01
- * time: 0.8773148059844971
-     7    -6.078238e+01     5.904920e-02
- * time: 0.9863498210906982
-     8    -6.126052e+01     7.076534e-02
- * time: 1.107470989227295
-     9    -6.154350e+01     6.773791e-02
- * time: 1.222829818725586
-    10    -6.176051e+01     3.457834e-02
- * time: 1.3347408771514893
-    11    -6.192086e+01     3.119749e-02
- * time: 1.4573209285736084
-    12    -6.200597e+01     2.556560e-02
- * time: 1.569566011428833
-    13    -6.208545e+01     2.029717e-02
- * time: 1.6821699142456055
-    14    -6.213274e+01     1.376144e-02
- * time: 1.8063499927520752
-    15    -6.217107e+01     1.161905e-02
- * time: 1.9164249897003174
-    16    -6.218995e+01     1.074901e-02
- * time: 2.0375678539276123
-    17    -6.220387e+01     8.756555e-03
- * time: 2.147359848022461
-    18    -6.221359e+01     8.142413e-03
- * time: 2.2579967975616455
-    19    -6.221966e+01     8.206366e-03
- * time: 2.379580020904541
-    20    -6.222492e+01     7.768064e-03
- * time: 2.490319013595581
-    21    -6.222976e+01     7.026078e-03
- * time: 2.5985188484191895
-    22    -6.223513e+01     6.324578e-03
- * time: 2.71972393989563
-    23    -6.224100e+01     6.028190e-03
- * time: 2.828234910964966
-    24    -6.224722e+01     5.569922e-03
- * time: 2.938175916671753
-    25    -6.225270e+01     4.175702e-03
- * time: 3.0582478046417236
-    26    -6.225628e+01     3.471020e-03
- * time: 3.166670799255371
-    27    -6.225836e+01     2.787143e-03
- * time: 3.2879679203033447
-    28    -6.225952e+01     1.929781e-03
- * time: 3.398965835571289
-    29    -6.226022e+01     1.565527e-03
- * time: 3.508762836456299
-    30    -6.226070e+01     1.515287e-03
- * time: 3.6316637992858887
-    31    -6.226104e+01     1.145467e-03
- * time: 3.74395489692688
-    32    -6.226128e+01     1.061837e-03
- * time: 3.853425979614258
-    33    -6.226145e+01     8.701453e-04
- * time: 3.9752798080444336
-    34    -6.226155e+01     4.883754e-04
- * time: 4.085983991622925
-    35    -6.226161e+01     3.665987e-04
- * time: 4.207878828048706
-    36    -6.226164e+01     2.911466e-04
- * time: 4.317149877548218
-    37    -6.226165e+01     2.251189e-04
- * time: 4.427242994308472
-    38    -6.226166e+01     1.718352e-04
- * time: 4.548503875732422
-    39    -6.226166e+01     1.364567e-04
- * time: 4.659173011779785
-    40    -6.226166e+01     9.696205e-05
- * time: 4.767314910888672
-    41    -6.226166e+01     7.098634e-05
- * time: 4.889714002609253
-    42    -6.226166e+01     6.508486e-05
- * time: 5.002137899398804
-    43    -6.226167e+01     4.704883e-05
- * time: 5.114539861679077
-    44    -6.226167e+01     3.927270e-05
- * time: 5.23641300201416
-    45    -6.226167e+01     2.950226e-05
- * time: 5.3455870151519775
-    46    -6.226167e+01     2.286856e-05
- * time: 5.465829849243164
-    47    -6.226167e+01     1.954556e-05
- * time: 5.577713966369629
-    48    -6.226167e+01     1.356740e-05
- * time: 5.686395883560181
-    49    -6.226167e+01     1.048037e-05
- * time: 5.807081937789917
-    50    -6.226167e+01     9.216648e-06
- * time: 5.916889905929565
-    51    -6.226167e+01     4.903543e-06
- * time: 6.026942014694214
-    52    -6.226167e+01     3.749929e-06
- * time: 6.14754581451416</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
-    Kinetic             25.7671085
-    AtomicLocal         -18.8557681
-    AtomicNonlocal      14.8522624
+     0     1.123992e+02     1.597144e+00
+ * time: 0.06321382522583008
+     1     1.142408e+01     1.053745e+00
+ * time: 0.18261384963989258
+     2    -1.126866e+01     1.008359e+00
+ * time: 0.31901097297668457
+     3    -3.342726e+01     8.020996e-01
+ * time: 0.459744930267334
+     4    -4.702760e+01     5.954316e-01
+ * time: 0.6233549118041992
+     5    -5.658379e+01     2.389278e-01
+ * time: 0.7798118591308594
+     6    -5.964794e+01     1.792063e-01
+ * time: 0.8871028423309326
+     7    -6.089268e+01     7.600375e-02
+ * time: 0.9943468570709229
+     8    -6.138351e+01     4.295196e-02
+ * time: 1.1132547855377197
+     9    -6.162514e+01     5.203136e-02
+ * time: 1.2203478813171387
+    10    -6.180887e+01     3.569534e-02
+ * time: 1.3375389575958252
+    11    -6.195316e+01     2.881852e-02
+ * time: 1.4451179504394531
+    12    -6.205492e+01     1.574574e-02
+ * time: 1.5524318218231201
+    13    -6.210387e+01     1.494358e-02
+ * time: 1.6715078353881836
+    14    -6.215903e+01     1.364766e-02
+ * time: 1.7815818786621094
+    15    -6.218419e+01     1.444328e-02
+ * time: 1.901397943496704
+    16    -6.220616e+01     1.015426e-02
+ * time: 2.0101318359375
+    17    -6.221946e+01     8.015095e-03
+ * time: 2.1187078952789307
+    18    -6.222954e+01     6.384349e-03
+ * time: 2.2393689155578613
+    19    -6.223699e+01     5.503508e-03
+ * time: 2.348200798034668
+    20    -6.224309e+01     4.988685e-03
+ * time: 2.4694879055023193
+    21    -6.224851e+01     5.138210e-03
+ * time: 2.579131841659546
+    22    -6.225305e+01     4.732969e-03
+ * time: 2.688627004623413
+    23    -6.225648e+01     3.532988e-03
+ * time: 2.8081858158111572
+    24    -6.225871e+01     3.454195e-03
+ * time: 2.915754795074463
+    25    -6.226008e+01     2.328974e-03
+ * time: 3.033500909805298
+    26    -6.226082e+01     1.360426e-03
+ * time: 3.140779972076416
+    27    -6.226118e+01     9.361754e-04
+ * time: 3.2486228942871094
+    28    -6.226136e+01     7.291315e-04
+ * time: 3.3664538860321045
+    29    -6.226146e+01     6.303862e-04
+ * time: 3.4762279987335205
+    30    -6.226152e+01     5.535253e-04
+ * time: 3.5937488079071045
+    31    -6.226157e+01     5.239039e-04
+ * time: 3.702119827270508
+    32    -6.226160e+01     4.221450e-04
+ * time: 3.809123992919922
+    33    -6.226162e+01     3.529894e-04
+ * time: 3.927842855453491
+    34    -6.226164e+01     2.549004e-04
+ * time: 4.0344109535217285
+    35    -6.226166e+01     1.918126e-04
+ * time: 4.150692939758301
+    36    -6.226166e+01     1.299779e-04
+ * time: 4.257507801055908
+    37    -6.226166e+01     1.044857e-04
+ * time: 4.365171909332275
+    38    -6.226166e+01     6.746992e-05
+ * time: 4.483147859573364
+    39    -6.226167e+01     4.933692e-05
+ * time: 4.589331865310669
+    40    -6.226167e+01     3.185165e-05
+ * time: 4.70721697807312
+    41    -6.226167e+01     2.486827e-05
+ * time: 4.814464807510376
+    42    -6.226167e+01     1.962281e-05
+ * time: 4.921532869338989
+    43    -6.226167e+01     1.625706e-05
+ * time: 5.039732933044434
+    44    -6.226167e+01     1.436435e-05
+ * time: 5.147135972976685
+    45    -6.226167e+01     1.188273e-05
+ * time: 5.266119003295898
+    46    -6.226167e+01     1.240731e-05
+ * time: 5.37388801574707
+    47    -6.226167e+01     6.888595e-06
+ * time: 5.4813690185546875
+    48    -6.226167e+01     4.325524e-06
+ * time: 5.600303888320923
+    49    -6.226167e+01     2.977436e-06
+ * time: 5.708285808563232
+    50    -6.226167e+01     2.001753e-06
+ * time: 5.826106786727905</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
+    Kinetic             25.7671064
+    AtomicLocal         -18.8557660
+    AtomicNonlocal      14.8522636
     Ewald               -67.1831486
     PspCorrection       -2.3569765
-    Hartree             4.8485386 
-    Xc                  -19.3336827
+    Hartree             4.8485364 
+    Xc                  -19.3336817
 
-    total               -62.261666455746
-</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../metallic_systems/">« Temperature and metallic systems</a><a class="docs-footer-nextpage" href="../ase/">Creating slabs with ASE »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 24 July 2020 21:26">Friday 24 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    total               -62.261666461580
+</pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../metallic_systems/">« Temperature and metallic systems</a><a class="docs-footer-nextpage" href="../ase/">Creating slabs with ASE »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Saturday 25 July 2020 15:34">Saturday 25 July 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
