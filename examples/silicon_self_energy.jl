@@ -40,7 +40,7 @@ idx_Gvec = findfirst(isequal(Gvec), G_vectors(basis.kpoints[1]))
 ψ_ref = scfres.ψ[1][idx_Gvec, 1]
 #  ψ_ref = scfres.ψ
 
-Ecuts_list = 6:2:10
+Ecuts_list = 6:2:16
 
 err_coarse = []
 err_pert = []
@@ -224,6 +224,7 @@ end
 #  legend()
 
 figure()
+rc("font", size=17)
 semilogy(Ecuts_list, err_λ_coarse, "x-", label="λ coarse diag")
 semilogy(Ecuts_list, err_λ_fine, "x-", label="λ fine diag")
 semilogy(Ecuts_list, err_λ2_pert, "x-", label="λ2 pert")
@@ -238,6 +239,7 @@ ylabel("error on λ")
 legend()
 
 figure()
+rc("font", size=17)
 semilogy(Ecuts_list, err_ψ_coarse, "x-", label="G coarse diag")
 semilogy(Ecuts_list, err_ψ_fine, "x-", label="G fine diag")
 semilogy(Ecuts_list, err_ψ_pert, "x-", label="G pert")
@@ -249,6 +251,7 @@ ylabel("error on ψ$(Gvec) = $(abs2(ψ_ref))")
 legend()
 
 figure()
+rc("font", size=17)
 semilogy(Ecuts_list, err_λ_coarse_kin, "bx-", label="λ coarse kin")
 semilogy(Ecuts_list, err_λ_coarse_loc, "gx-", label="λ coarse loc")
 semilogy(Ecuts_list, err_λ_coarse_nonloc, "rx-", label="λ coarse nonloc")
