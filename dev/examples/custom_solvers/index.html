@@ -51,18 +51,18 @@ end</code></pre><p>That&#39;s it! Now we just run the SCF with these solvers</p>
                                eigensolver=my_eig_solver,
                                mixing=MyMixing());</code></pre><pre class="documenter-example-output">n     Energy            Eₙ-Eₙ₋₁     ρout-ρin   Diag
 ---   ---------------   ---------   --------   ----
-  1   -7.183386466625         NaN   3.50e-01    0.0
-  2   -7.240456769150   -5.71e-02   1.73e-01    0.0
-  3   -7.248066576470   -7.61e-03   7.41e-02    0.0
-  4   -7.248863467995   -7.97e-04   4.05e-02    0.0
-  5   -7.249108362192   -2.45e-04   2.24e-02    0.0
-  6   -7.249183016056   -7.47e-05   1.25e-02    0.0
-  7   -7.249206036244   -2.30e-05   7.14e-03    0.0
-  8   -7.249213299909   -7.26e-06   4.13e-03    0.0
-  9   -7.249215662053   -2.36e-06   2.43e-03    0.0
- 10   -7.249216456876   -7.95e-07   1.45e-03    0.0
- 11   -7.249216733912   -2.77e-07   8.75e-04    0.0
- 12   -7.249216833808   -9.99e-08   5.35e-04    0.0
- 13   -7.249216870959   -3.72e-08   3.31e-04    0.0
- 14   -7.249216885150   -1.42e-08   2.06e-04    0.0
- 15   -7.249216890693   -5.54e-09   1.30e-04    0.0</pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 13 October 2020 18:10">Tuesday 13 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  1   -7.231862083670         NaN   3.20e-01    0.0
+  2   -7.246269975621   -1.44e-02   1.46e-01    0.0
+  3   -7.248760799866   -2.49e-03   6.62e-02    0.0
+  4   -7.249066752743   -3.06e-04   3.64e-02    0.0
+  5   -7.249167239801   -1.00e-04   2.02e-02    0.0
+  6   -7.249200175900   -3.29e-05   1.13e-02    0.0
+  7   -7.249211120612   -1.09e-05   6.40e-03    0.0
+  8   -7.249214841909   -3.72e-06   3.67e-03    0.0
+  9   -7.249216143036   -1.30e-06   2.14e-03    0.0
+ 10   -7.249216611667   -4.69e-07   1.26e-03    0.0
+ 11   -7.249216785392   -1.74e-07   7.58e-04    0.0
+ 12   -7.249216851503   -6.61e-08   4.61e-04    0.0
+ 13   -7.249216877236   -2.57e-08   2.84e-04    0.0
+ 14   -7.249216887443   -1.02e-08   1.77e-04    0.0
+ 15   -7.249216891553   -4.11e-09   1.11e-04    0.0</pre><p>Note that the default convergence criterion is on the difference of energy from one step to the other; when this gets below <code>tol</code>, the &quot;driver&quot; <code>self_consistent_field</code> artificially makes the fixpoint solver think it&#39;s converged by forcing <code>f(x) = x</code>. You can customize this with the <code>is_converged</code> keyword argument to <code>self_consistent_field</code>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../arbitrary_floattype/">« Arbitrary floating-point types</a><a class="docs-footer-nextpage" href="../custom_potential/">Custom potential »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 19 October 2020 09:31">Monday 19 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
