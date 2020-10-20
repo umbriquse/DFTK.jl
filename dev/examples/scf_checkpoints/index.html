@@ -19,47 +19,47 @@ basis = PlaneWaveBasis(model, Ecut; kgrid=[1, 1, 1])
 scfres = self_consistent_field(basis, tol=1e-2, ρspin=ρspin)
 save_scfres(&quot;scfres.jld2&quot;, scfres);</code></pre><pre class="documenter-example-output">n     Free energy       Eₙ-Eₙ₋₁     ρout-ρin   Magnet   Diag
 ---   ---------------   ---------   --------   ------   ----
-  1   -27.63912714823         NaN   9.77e-01    0.001    4.5
-  2   -28.50059911186   -8.61e-01   6.71e-01    0.913    6.0
-  3   -28.90898051337   -4.08e-01   1.52e-01    1.285    4.0
-  4   -28.93727539273   -2.83e-02   3.94e-02    1.740    3.0
-  5   -28.93854098003   -1.27e-03   2.84e-02    1.933    2.0</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
-    Kinetic             16.9080971
-    AtomicLocal         -58.7987692
-    AtomicNonlocal      4.7445968 
+  1   -27.63648337688         NaN   9.78e-01    0.001    4.5
+  2   -28.49945878503   -8.63e-01   6.72e-01    0.901    6.0
+  3   -28.90884371951   -4.09e-01   1.52e-01    1.272    4.0
+  4   -28.93719437550   -2.84e-02   3.93e-02    1.732    3.0
+  5   -28.93850927532   -1.31e-03   2.86e-02    1.931    2.0</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
+    Kinetic             16.9114785
+    AtomicLocal         -58.8058605
+    AtomicNonlocal      4.7451369 
     Ewald               -4.8994689
     PspCorrection       0.0044178 
-    Hartree             19.5242451
-    Xc                  -6.4192925
-    Entropy             -0.0023672
+    Hartree             19.5281235
+    Xc                  -6.4199001
+    Entropy             -0.0024366
 
-    total               -28.938540980032
+    total               -28.938509275315
 </pre><p>The <code>scfres.jld2</code> file could now be transfered to a different computer, Where one could fire up a REPL to inspect the results of the above calculation:</p><pre><code class="language-julia">using DFTK
 using JLD2
 loaded = load_scfres(&quot;scfres.jld2&quot;)
 propertynames(loaded)</code></pre><pre class="documenter-example-output">(:ham, :basis, :energies, :converged, :ρ, :ρspin, :eigenvalues, :occupation, :εF, :n_iter, :ψ, :diagonalization, :stage)</pre><pre><code class="language-julia">loaded.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
-    Kinetic             16.9080971
-    AtomicLocal         -58.7987692
-    AtomicNonlocal      4.7445968 
+    Kinetic             16.9114785
+    AtomicLocal         -58.8058605
+    AtomicNonlocal      4.7451369 
     Ewald               -4.8994689
     PspCorrection       0.0044178 
-    Hartree             19.5242451
-    Xc                  -6.4192925
-    Entropy             -0.0023672
+    Hartree             19.5281235
+    Xc                  -6.4199001
+    Entropy             -0.0024366
 
-    total               -28.938540980032
+    total               -28.938509275315
 </pre><p>Since the loaded data contains exactly the same data as the <code>scfres</code> returned by the SCF calculation one could use it to plot a band structure, e.g. <code>plot_bandstructure(load_scfres(&quot;scfres.jld2&quot;))</code> directly from the stored data.</p><h2 id="Checkpointing-of-SCF-calculations"><a class="docs-heading-anchor" href="#Checkpointing-of-SCF-calculations">Checkpointing of SCF calculations</a><a id="Checkpointing-of-SCF-calculations-1"></a><a class="docs-heading-anchor-permalink" href="#Checkpointing-of-SCF-calculations" title="Permalink"></a></h2><p>A related feature, which is very useful especially for longer calculations with DFTK is automatic checkpointing, where the state of the SCF is periodically written to disk. The advantage is that in case the calculation errors or gets aborted due to overrunning the walltime limit one does not need to start from scratch, but can continue the calculation from the last checkpoint.</p><p>To enable automatic checkpointing in DFTK one needs to pass the <code>ScfSaveCheckpoints</code> callback to <a href="../../api/#DFTK.self_consistent_field-Tuple{PlaneWaveBasis}"><code>self_consistent_field</code></a>, for example:</p><pre><code class="language-julia">callback = DFTK.ScfSaveCheckpoints()
 scfres = self_consistent_field(basis, tol=1e-2, ρspin=ρspin, callback=callback);</code></pre><p>Notice that using this callback makes the SCF go silent since the passed callback parameter overwrites the default value (namely <code>DefaultScfCallback()</code>) which exactly gives the familiar printing of the SCF convergence. If you want to have both (printing and checkpointing) you need to chain both callbacks:</p><pre><code class="language-julia">callback = DFTK.ScfDefaultCallback() ∘ DFTK.ScfSaveCheckpoints(keep=true)
 scfres = self_consistent_field(basis, tol=1e-2, ρspin=ρspin, callback=callback);</code></pre><pre class="documenter-example-output">n     Free energy       Eₙ-Eₙ₋₁     ρout-ρin   Magnet   Diag
 ---   ---------------   ---------   --------   ------   ----
-  1   -27.63730171263         NaN   9.78e-01    0.001    5.0
-  2   -28.49976332258   -8.62e-01   6.72e-01    0.912    6.0
-  3   -28.90889124056   -4.09e-01   1.52e-01    1.283    4.0
-  4   -28.93727481538   -2.84e-02   3.93e-02    1.739    3.0
-  5   -28.93855629504   -1.28e-03   2.82e-02    1.933    2.0</pre><p>For more details on using callbacks with DFTK&#39;s <code>self_consistent_field</code> function see <a href="../scf_callbacks/#Monitoring-self-consistent-field-calculations">Monitoring self-consistent field calculations</a>.</p><p>By default checkpoint is saved in the file <code>dftk_scf_checkpoint.jld2</code>, which is deleted automatically once the SCF completes successfully. If one wants to keep the file one needs to specify <code>keep=true</code> as has been done in the ultimate SCF for demonstration purposes: now we can continue the previous calculation from the last checkpoint as if the SCF had been aborted. For this one just loads the checkpoint with <a href="../../api/#DFTK.load_scfres"><code>load_scfres</code></a>:</p><pre><code class="language-julia">oldstate = load_scfres(&quot;dftk_scf_checkpoint.jld2&quot;)
+  1   -27.63712559025         NaN   9.78e-01    0.001    5.0
+  2   -28.49993705504   -8.63e-01   6.72e-01    0.911    6.0
+  3   -28.90886481702   -4.09e-01   1.52e-01    1.283    4.0
+  4   -28.93726713195   -2.84e-02   3.93e-02    1.739    3.0
+  5   -28.93854008899   -1.27e-03   2.84e-02    1.933    2.0</pre><p>For more details on using callbacks with DFTK&#39;s <code>self_consistent_field</code> function see <a href="../scf_callbacks/#Monitoring-self-consistent-field-calculations">Monitoring self-consistent field calculations</a>.</p><p>By default checkpoint is saved in the file <code>dftk_scf_checkpoint.jld2</code>, which is deleted automatically once the SCF completes successfully. If one wants to keep the file one needs to specify <code>keep=true</code> as has been done in the ultimate SCF for demonstration purposes: now we can continue the previous calculation from the last checkpoint as if the SCF had been aborted. For this one just loads the checkpoint with <a href="../../api/#DFTK.load_scfres"><code>load_scfres</code></a>:</p><pre><code class="language-julia">oldstate = load_scfres(&quot;dftk_scf_checkpoint.jld2&quot;)
 scfres   = self_consistent_field(oldstate.basis, ρ=oldstate.ρ, ρspin=oldstate.ρspin,
                                  ψ=oldstate.ψ, tol=1e-3);</code></pre><pre class="documenter-example-output">n     Free energy       Eₙ-Eₙ₋₁     ρout-ρin   Magnet   Diag
 ---   ---------------   ---------   --------   ------   ----
-  1   -28.93892666928         NaN   2.56e-02    1.985    1.0
-  2   -28.93945028869   -5.24e-04   1.27e-02    1.982    2.0</pre><div class="admonition is-info"><header class="admonition-header">Availability of `load_scfres`, `save_scfres` and `ScfSaveCheckpoints`</header><div class="admonition-body"><p>As JLD2 is an optional dependency of DFTK these three functions are only available once one has <em>both</em> imported DFTK and JLD2 (<code>using DFTK</code> and <code>using JLD2</code>).</p></div></div><p>(Cleanup files generated by this notebook)</p><pre><code class="language-julia">rm(&quot;dftk_scf_checkpoint.jld2&quot;)
-rm(&quot;scfres.jld2&quot;)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../scf_callbacks/">« Monitoring self-consistent field calculations</a><a class="docs-footer-nextpage" href="../polarizability/">Polarizability by linear response »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 20 October 2020 07:30">Tuesday 20 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  1   -28.93889405121         NaN   2.60e-02    1.985    1.0
+  2   -28.93941674581   -5.23e-04   1.35e-02    1.982    2.0</pre><div class="admonition is-info"><header class="admonition-header">Availability of `load_scfres`, `save_scfres` and `ScfSaveCheckpoints`</header><div class="admonition-body"><p>As JLD2 is an optional dependency of DFTK these three functions are only available once one has <em>both</em> imported DFTK and JLD2 (<code>using DFTK</code> and <code>using JLD2</code>).</p></div></div><p>(Cleanup files generated by this notebook)</p><pre><code class="language-julia">rm(&quot;dftk_scf_checkpoint.jld2&quot;)
+rm(&quot;scfres.jld2&quot;)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../scf_callbacks/">« Monitoring self-consistent field calculations</a><a class="docs-footer-nextpage" href="../polarizability/">Polarizability by linear response »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 20 October 2020 14:38">Tuesday 20 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
