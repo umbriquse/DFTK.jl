@@ -21,21 +21,26 @@ basis = PlaneWaveBasis(model, Ecut; kgrid=kgrid)
 
 scfres = self_consistent_field(basis, tol=1e-4, mixing=KerkerMixing());</code></pre><pre class="documenter-example-output">n     Free energy       Eₙ-Eₙ₋₁     ρout-ρin   Diag
 ---   ---------------   ---------   --------   ----
-  1   -16.60928609763         NaN   2.60e-01    5.0
-  2   -16.72222222897   -1.13e-01   8.54e-02    3.5
-  3   -16.65533651366    6.69e-02   5.52e-02    2.0
-  4   -16.73261250572   -7.73e-02   1.83e-02    2.0
-  5   -16.73563921290   -3.03e-03   1.01e-02    1.0
-  6   -16.73617696149   -5.38e-04   2.16e-03    2.5
-  7   -16.73627338842   -9.64e-05   1.72e-03    3.0</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
-    Kinetic             5.8423285 
-    AtomicLocal         -105.5615502
-    AtomicNonlocal      2.3491366 
+  1   -16.60852781617         NaN   2.60e-01    4.8
+  2   -16.72213077446   -1.14e-01   8.52e-02    3.0
+  3   -16.65548289050    6.66e-02   5.50e-02    2.0
+  4   -16.73266904283   -7.72e-02   1.82e-02    2.0
+  5   -16.73569120529   -3.02e-03   9.85e-03    1.0
+  6   -16.73614519506   -4.54e-04   2.11e-03    2.3
+  7   -16.73625880297   -1.14e-04   1.70e-03    3.0
+  8   -16.73608440403    1.74e-04   2.09e-03    3.3
+  9   -16.73640255131   -3.18e-04   1.78e-03    3.3
+ 10   -16.73628363435    1.19e-04   1.32e-03    2.8
+ 11   -16.73641206666   -1.28e-04   9.92e-04    3.0
+ 12   -16.73641891568   -6.85e-06   6.93e-04    3.3</pre><pre><code class="language-julia">scfres.energies</code></pre><pre class="documenter-example-output">Energy breakdown:
+    Kinetic             5.8432497 
+    AtomicLocal         -105.5691576
+    AtomicNonlocal      2.3496850 
     Ewald               35.5044300
     PspCorrection       0.2016043 
-    Hartree             49.5217214
-    Xc                  -4.5937900
-    Entropy             -0.0001541
+    Hartree             49.5278613
+    Xc                  -4.5939514
+    Entropy             -0.0001403
 
-    total               -16.736273388425
-</pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-RCW2001"><a class="tag is-link" href="#citeref-RCW2001">RCW2001</a>D. Raczkowski, A. Canning, and L. W. Wang <em>Thomas-Fermi charge mixing for obtaining self-consistency in density functional calculations</em> Phys. Rev. B <strong>64</strong>, 121101(R).</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pymatgen/">« Creating supercells with pymatgen</a><a class="docs-footer-nextpage" href="../collinear_magnetism/">Collinear spin and magnetic systems »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 19 October 2020 09:31">Monday 19 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    total               -16.736418915683
+</pre><section class="footnotes is-size-7"><ul><li class="footnote" id="footnote-RCW2001"><a class="tag is-link" href="#citeref-RCW2001">RCW2001</a>D. Raczkowski, A. Canning, and L. W. Wang <em>Thomas-Fermi charge mixing for obtaining self-consistency in density functional calculations</em> Phys. Rev. B <strong>64</strong>, 121101(R).</li></ul></section></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pymatgen/">« Creating supercells with pymatgen</a><a class="docs-footer-nextpage" href="../collinear_magnetism/">Collinear spin and magnetic systems »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 20 October 2020 07:30">Tuesday 20 October 2020</span>. Using Julia version 1.4.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
