@@ -82,8 +82,8 @@ version = "1.0.0"
 
 [[DFTK]]
 deps = ["AbstractFFTs", "Conda", "FFTW", "ForwardDiff", "GenericLinearAlgebra", "Interpolations", "IterTools", "IterativeSolvers", "JSON", "Libxc", "LineSearches", "LinearAlgebra", "LinearMaps", "MPI", "Markdown", "NCDatasets", "NLsolve", "Optim", "OrderedCollections", "PeriodicTable", "Polynomials", "Primes", "Printf", "ProgressMeter", "PyCall", "Requires", "Roots", "SpecialFunctions", "StaticArrays", "Statistics", "TimerOutputs", "spglib_jll"]
-git-tree-sha1 = "d09ccbe9b49f50a0b6fa95ea6a1f24ac55d609c7"
-repo-rev = "d66759ecff7c612d458afd3406a51c973a518c65"
+git-tree-sha1 = "cedee6a69e51fd3942e67dee74bcad5f5ec6b40d"
+repo-rev = "78967b1d414ca4dcc5707bd1cd3210158d85feee"
 repo-url = "https://github.com/JuliaMolSim/DFTK.jl.git"
 uuid = "acf6eb54-70d9-11e9-0013-234b7a5f5337"
 version = "0.1.17"
@@ -278,9 +278,9 @@ version = "2020.2.254+0"
 
 [[MPI]]
 deps = ["Distributed", "DocStringExtensions", "Libdl", "MPICH_jll", "MicrosoftMPI_jll", "OpenMPI_jll", "Pkg", "Random", "Requires", "Serialization", "Sockets"]
-git-tree-sha1 = "0bd36605eea7a4d9c3ae0d7f21c10210dd54cb83"
+git-tree-sha1 = "c39dd4bc91e2054cc22af3ef88878a6c143dbd80"
 uuid = "da04e1cc-30fd-572f-bb4f-1f8673147195"
-version = "0.15.1"
+version = "0.16.0"
 
 [[MPICH_jll]]
 deps = ["CompilerSupportLibraries_jll", "Libdl", "Pkg"]
@@ -379,9 +379,9 @@ version = "0.12.1"
 
 [[Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "6fa4202675c05ba0f8268a6ddf07606350eda3ce"
+git-tree-sha1 = "b417be52e8be24e916e34b3d70ec2da7bdf56a68"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "1.0.11"
+version = "1.0.12"
 
 [[PeriodicTable]]
 deps = ["Base64", "Test", "Unitful"]
@@ -440,9 +440,9 @@ uuid = "c84ed2f1-dad5-54f0-aa8e-dbefe2724439"
 version = "0.4.0"
 
 [[RecipesBase]]
-git-tree-sha1 = "6ee6c35fe69e79e17c455a386c1ccdc66d9f7da4"
+git-tree-sha1 = "b3fb709f3c97bfc6e948be68beeecb55a0b340ae"
 uuid = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
-version = "1.1.0"
+version = "1.1.1"
 
 [[Reexport]]
 deps = ["Pkg"]
